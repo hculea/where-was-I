@@ -8,7 +8,8 @@ import os.path
 
 
 def get_sift_features(im_list):
-    """get_sift_features accepts a list of image names and computes the sift descriptos for each image. It returns a dictionary with descriptor as value and image name as key """
+    """get_sift_features accepts a list of image names and computes the sift descriptors for each image.
+    It returns a dictionary with descriptor as value and image name as key """
     sift = cv2.SIFT_create()
     features = {}
     total = len(im_list)
@@ -43,7 +44,6 @@ def sift_query(frame, result_list, frame_nbr, database):
 
     dictionary = {}
     dictionary[frame_nbr_str] = frame
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     sift_query = get_sift_features([dictionary])
     # Get a histogram of visual words for the query image
     image_words = sift_vocabulary.project(sift_query[list(sift_query.keys())[0]])
@@ -55,7 +55,6 @@ def sift_query(frame, result_list, frame_nbr, database):
 
     if not sift_candidates is None:
         sift_winners = [search.get_filename(cand[1]) for cand in sift_candidates][0:N]
-        sift_distances = [cand[0] for cand in sift_candidates][0:N]
         for i in range(len(sift_winners)):
             result_list.append(sift_winners[i])
 
@@ -111,6 +110,9 @@ def get_landmark(result_list):
 
 def query(database, video):
     cap = cv2.VideoCapture(video)
+
+    # frame_count = get_frame_count(video) + 1
+    # frame_rate = get_frame_rate(video)
 
     frame_nbr = 0
     result_list = []
