@@ -126,7 +126,4 @@ def query(database, video):
 
         frame_nbr += 1
 
-    print(get_landmark(result_list))
-
-
-query('db/MMA.db', 'trainingVideos/VIDEO0197.3gp')
+    return get_landmark(result_list)
