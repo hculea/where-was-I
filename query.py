@@ -102,10 +102,14 @@ def get_landmark(result_list):
     for key, value in counts.items():
         values.append(value)
 
+    totalCounts = countNK + countRH + countOJ
     maximum = max(values)
-    landmark = get_key(counts, maximum)
-    result = landmarks.get(landmark)
-    return result
+    if maximum/totalCounts < 0.535:
+        return None
+    else:
+        landmark = get_key(counts, maximum)
+        result = landmarks.get(landmark)
+        return result
 
 
 def query(database, video):

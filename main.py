@@ -72,6 +72,12 @@ def file_explorer():
 
         res_landmark = query('db/MMA.db', filename)
 
+        # if res_landmark is not None:
+        #
+        # else:
+        #     # Try with another video
+        #     # "No landmark recognized."
+
         locations = {
             "Nieuwe Kerk": [52.012468, 4.360922],
             "Stadhuis": [52.011548, 4.358495],
