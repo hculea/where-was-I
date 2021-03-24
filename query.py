@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import cv2
-from video_tools import get_frame_count, get_frame_rate
 import progressbar
 import pickle
 import image_search
@@ -51,7 +50,7 @@ def sift_query(frame, result_list, frame_nbr, database):
     sift_candidates = search.query_iw('sift', image_words)
 
     # If candidates exists, show the top N candidates
-    N = 10
+    N = 5
 
     if not sift_candidates is None:
         sift_winners = [search.get_filename(cand[1]) for cand in sift_candidates][0:N]
@@ -111,9 +110,6 @@ def get_landmark(result_list):
 def query(database, video):
     cap = cv2.VideoCapture(video)
 
-    # frame_count = get_frame_count(video) + 1
-    # frame_rate = get_frame_rate(video)
-
     frame_nbr = 0
     result_list = []
     while cap.isOpened():
@@ -121,7 +117,7 @@ def query(database, video):
         if frame is None:
             break
 
-        if frame_nbr % 30 == 0:
+        if frame_nbr % 10 == 0:
             sift_query(frame, result_list, frame_nbr, database)
 
         frame_nbr += 1

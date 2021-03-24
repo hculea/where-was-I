@@ -1,6 +1,7 @@
 import exifread
 import math
 
+
 def getLongLat(video):
     f = open(video, 'rb')
     longitude, longRef, latitude, latRef = extract_exif(f)
@@ -20,7 +21,6 @@ def extract_exif(file1):
     except:
         return 0, 0, 0, 0
 
-    print("hello!")
     if 'GPS GPSLongitude' in exif_tags:
         longitude = [x.num / x.den for x in exif_tags['GPS GPSLongitude'].values]
         latitude = [x.num / x.den for x in exif_tags['GPS GPSLatitude'].values]
@@ -29,6 +29,7 @@ def extract_exif(file1):
         return longitude, longRef, latitude, latRef
     else:
         return 0, 0, 0, 0
+
 
 def geographical_distance(lat1, lon1, lat2, lon2):
     R = 6372800
