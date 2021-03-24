@@ -3,6 +3,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk, filedialog
 
+from closest_location_take2 import getLongLat, closest_location
 from create_DB import create_DB
 from query import query
 
@@ -44,23 +45,24 @@ style.theme_use("clam")
 ttk.Label(f1,
           text="Welcome to 'WhereWasI?'", font=ariel14bold).grid(row=0, columnspan=3, pady=20, padx=80)
 tk.Label(f1,
-         text="An application for finding your position in Delft!", font=ariel10).grid(row=1, columnspan=3, pady=4)
+         text="An application for finding landmarks in Delft!", font=ariel10).grid(row=1, columnspan=3, pady=4)
 tk.Label(f1,
          text="Choose one of the actions below:", font=ariel10).grid(row=2, columnspan=3, pady=4)
 
 # Default coordinates
 coord = [51.9, 4.36]
 
-landmark = "EEMCS"
-
-res_landmark = ''
+landmark = "NOT IDENTIFIED"
+res_landmark = 'NOT IDENTIFIED'
 
 
 def file_explorer():
+    global landmark
     filename = filedialog.askopenfilenames(
         filetypes=[
             ("MP4", "*.mp4"),
             ("AVI", "*.avi"),
+            ("3GP", "*.3gp"),
             ("All files", "*")])[0]
 
     # DO THE COMPUTATIONS AND STORE THE RESULTS FOR LANDMARK, COORDX AND COORDY
@@ -69,6 +71,10 @@ def file_explorer():
         print(filename)
 
         create_DB("./dbImages/")
+        (long, lat) = getLongLat(filename)
+
+        if (long, lat) != (0,0):
+            landmark = closest_location(lat, long)
 
         res_landmark = query('db/MMA.db', filename)
 
