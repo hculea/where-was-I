@@ -8,14 +8,12 @@ import os.path
 import cv2
 import progressbar
 
-CREATE_DATABASE = False
-
 
 def get_sift_features(im_list):
     sift = cv2.xfeatures2d.SIFT_create()
     features = {}
     total = len(im_list)
-    bar = progressbar.ProgressBar(maxval=total,
+    bar = progressbar.ProgressBar(maxval=total, \
                                   widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
     count = 0
 
@@ -31,7 +29,7 @@ def get_sift_features(im_list):
 
 
 def feature_active(name, feature):
-    return feature == name or feature == 'all'
+    return (feature == name or feature == 'all')
 
 
 def load_features(name, prefix, base):
@@ -67,13 +65,6 @@ def compute_features(image_list, name, feature_function, prefix, base):
 
 
 def create_DB(training_set):
-    if not CREATE_DATABASE:
-        return
-
-    deleteIfExists("./db/MMA.db")
-    deleteIfExists("./db/MMA_sift.pkl")
-    deleteIfExists("./db/MMA_sift_vocabulary.pkl")
-
     database = "MMA.db"
     clusters = 100
     prefix = "db/"
@@ -99,6 +90,8 @@ def create_DB(training_set):
     if feature_active('sift', 'sift'):
         sift_features = compute_features(image_list, 'sift', get_sift_features, prefix, base)
 
+        # Create a visual vocabulary (Bag of Words) from the sift extracted features.  If the vocabulary already exists the user will be asked if the vocabulary needs to be recreated.
+
         fname = prefix + base + '_sift_vocabulary.pkl'
         if os.path.isfile(fname):
             compute = input("Found existing vocabulary: " + fname + " Do you want to recompute it? ([Y]/N): ")
@@ -113,6 +106,8 @@ def create_DB(training_set):
 
     db_name = prefix + base + '.db'
 
+    # check if database already exists
+    new = False
     if os.path.isfile(db_name):
         action = input('Database already exists. Do you want to (r)emove, (a)ppend or (q)uit? ')
     else:
@@ -130,23 +125,16 @@ def create_DB(training_set):
 
     # Create indexer which can create the database tables and provides an API to insert data into the tables.
     indx = db_index.Indexer(db_name)
-    if new:
+    if new == True:
         indx.create_tables()
 
     if feature_active('sift', 'sift'):
-        if sift_vocabulary is None:
+        if sift_vocabulary == None:
             sift_vocabulary = load_features('sift_vocabulary')
-        if sift_features is None:
+        if sift_features == None:
             sift_features = load_features('sift')
 
         for i in range(len(image_list)):
             indx.add_to_index('sift', image_list[i], sift_features[image_list[i]], sift_vocabulary)
 
     indx.db_commit()
-
-
-def deleteIfExists(filePath):
-    if os.path.exists(filePath):
-        os.remove(filePath)
-    else:
-        print("Can not delete the file as it doesn't exists")
