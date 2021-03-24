@@ -68,23 +68,15 @@ def file_explorer():
     try:
         print(filename)
 
-        create_DB("./dbImages/")
+        # create_DB("./dbImages/")
 
         res_landmark = query('db/MMA.db', filename)
-
-        # if res_landmark is not None:
-        #
-        # else:
-        #     # Try with another video
-        #     # "No landmark recognized."
 
         locations = {
             "Nieuwe Kerk": [52.012468, 4.360922],
             "Stadhuis": [52.011548, 4.358495],
             "Oude Jan": [52.012707, 4.355859]
         }
-
-        print(res_landmark)
 
         lbl = tk.Label(f2, text="http://www.google.com/maps/place/" + str(locations[res_landmark][0]) + "," + str(locations[res_landmark][1]), fg="blue",
                        font='Ariel 12', pady=2)

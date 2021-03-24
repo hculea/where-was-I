@@ -77,7 +77,7 @@ class Searcher:
             "select histogram from " + type + "_imhistograms where rowid='%d'" % im_id).fetchone()
 
         # use pickle to decode NumPy arrays from string
-        return pickle.loads(str(s[0]).encode(encoding='UTF-8'), encoding="latin1")
+        return pickle.loads(s[0])
 
     def query(self, type, imname):
         """ Find a list of matching images for imname"""

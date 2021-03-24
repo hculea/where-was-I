@@ -138,3 +138,5 @@ def create_DB(training_set):
             indx.add_to_index('sift', image_list[i], sift_features[image_list[i]], sift_vocabulary)
 
     indx.db_commit()
+
+# create_DB("./dbImages/")
