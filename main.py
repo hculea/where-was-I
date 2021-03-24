@@ -68,7 +68,7 @@ def file_explorer():
     try:
         print(filename)
 
-        # create_DB("./dbImages/")
+        create_DB("./dbImages/")
 
         res_landmark = query('db/MMA.db', filename)
 
