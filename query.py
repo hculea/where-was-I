@@ -10,7 +10,7 @@ import os.path
 def get_sift_features(im_list):
     """get_sift_features accepts a list of image names and computes the sift descriptors for each image.
     It returns a dictionary with descriptor as value and image name as key """
-    sift = cv2.SIFT_create()
+    sift = cv2.xfeatures2d.SIFT_create()
     features = {}
     total = len(im_list)
     bar = progressbar.ProgressBar(maxval=total, \
