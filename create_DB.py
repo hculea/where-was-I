@@ -8,7 +8,7 @@ import os.path
 import cv2
 import progressbar
 
-CREATE_DATABASE = True
+CREATE_DATABASE = False
 
 
 def get_sift_features(im_list):

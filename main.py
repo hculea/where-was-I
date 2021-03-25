@@ -63,6 +63,7 @@ def file_explorer():
             ("MP4", "*.mp4"),
             ("AVI", "*.avi"),
             ("3GP", "*.3gp"),
+            ("JPG", ".jpg"),
             ("All files", "*")])[0]
 
     # DO THE COMPUTATIONS AND STORE THE RESULTS FOR LANDMARK, COORDX AND COORDY
@@ -73,18 +74,26 @@ def file_explorer():
         create_DB("./dbImages/")
         (long, lat) = getLongLat(filename)
 
-        if (long, lat) != (0,0):
+        print(long, lat)
+
+        if (long, lat) != (0, 0):
             landmark = closest_location(lat, long)
+
+        print(landmark)
 
         res_landmark = query('db/MMA.db', filename)
 
         locations = {
             "Nieuwe Kerk": [52.012468, 4.360922],
             "Stadhuis": [52.011548, 4.358495],
-            "Oude Jan": [52.012707, 4.355859]
+            "Oude Jan": [52.012707, 4.355859],
+            "NOT IDENTIFIED": [38.8714674, -77.0552931]
         }
 
-        lbl = tk.Label(f2, text="http://www.google.com/maps/place/" + str(locations[res_landmark][0]) + "," + str(locations[res_landmark][1]), fg="blue",
+        print(res_landmark)
+
+        lbl = tk.Label(f2, text="http://www.google.com/maps/place/" + str(locations[res_landmark][0]) + "," + str(
+            locations[res_landmark][1]), fg="blue",
                        font='Ariel 12', pady=2)
 
         lbl.grid(row=5, columnspan=2)
@@ -119,10 +128,10 @@ ttk.Button(f1,
 lb1 = tk.Label(f2, text="According to our magic juice, you are next to:", pady=2)
 lb1.grid(row=0, columnspan=2)
 
-lb1 = tk.Label(f2, text="The video that you've submitted contains: " + res_landmark, pady=2)
+lb1 = tk.Label(f2, text="The video that you've submitted contains: ", pady=2)
 lb1.grid(row=2, columnspan=2)
 
-lb2 = tk.Label(f2, text="Find your exact location at this link:", pady=2)
+lb2 = tk.Label(f2, text="Find the exact location of the monument in the picture at this link:", pady=2)
 lb2.grid(row=4, columnspan=2)
 
 print(coord)

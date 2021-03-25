@@ -59,4 +59,4 @@ def closest_location(lat, lon):
 
     minimum = {k: v for k, v in sorted(distances.items(), key=lambda item: item[1])}
 
-    print(next(iter(minimum)))
+    return next(iter(minimum))
