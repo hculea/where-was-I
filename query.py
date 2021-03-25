@@ -4,7 +4,6 @@ import progressbar
 import pickle
 import image_search
 import os.path
-import numpy as np
 
 
 def get_sift_features(im_list):
@@ -103,11 +102,6 @@ def get_landmark(result_list):
         values.append(value)
 
     maximum = max(values)
-
-
-    print(maximum)
-    print(values)
-    print(sum(values))
 
     if float(maximum)/float(sum(values)) <= 0.4:
         return "NOT IDENTIFIED"
